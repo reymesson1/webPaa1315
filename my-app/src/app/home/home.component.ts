@@ -16,4 +16,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handleFileInput(event){
+
+    console.log(event);
+  }
+  
+  handleFileInput2(event){
+    
+    console.log(event);
+  }
+
 }

@@ -30,4 +30,8 @@ export class AreapersonalComponent implements OnInit {
 
   }
 
+  onSubmit(event){
+
+  }
+
 }

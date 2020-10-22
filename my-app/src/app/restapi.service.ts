@@ -65,13 +65,13 @@ export class RestapiService {
       "password": event.value.password
     })
     .subscribe(
-        (val) => {
+        (val:any) => {
           
             localStorage.setItem(this.TOKEN_KEY, val.jwt);
             
             if(this.isAuthenticated){
 
-              this.router.navigateByUrl('/miscursos');    
+              this.router.navigateByUrl('/home');    
             }
             console.log("POST call successful value returned in body",val);
           
@@ -92,7 +92,7 @@ export class RestapiService {
 
     this.http.get("http://localhost:8080/masters", {headers: new HttpHeaders({ 'Content-Type':'application/json', Authorization: "Bearer "+localStorage.getItem('token')})})
     .subscribe(
-        (val) => {
+        (val:any) => {
             console.log("GET call successful value returned in body",val);
 
             this.masters = val;
@@ -135,7 +135,7 @@ export class RestapiService {
       "creator": localStorage.getItem("token") 
     },{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
     .subscribe(
-        (val) => {
+        (val:any) => {
             console.log("POST call successful value returned in body",val);
         },
         response => {
@@ -162,7 +162,7 @@ export class RestapiService {
       "creator": localStorage.getItem("token") 
     },{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
     .subscribe(
-        (val) => {
+        (val:any) => {
             console.log("POST call successful value returned in body",val);
         },
         response => {
@@ -208,7 +208,7 @@ export class RestapiService {
     this.http.post("http://localhost:8080/uploadtask",
     formData)
     .subscribe(
-          (val) => {
+          (val:any) => {
               console.log("POST call successful value returned in body",val);
           },
           response => {
@@ -229,7 +229,7 @@ export class RestapiService {
     this.http.post("http://localhost:8080/uploadexcel",
     formData,{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
     .subscribe(
-          (val) => {
+          (val:any) => {
               console.log("POST call successful value returned in body",val);
           },
           response => {
@@ -250,7 +250,7 @@ export class RestapiService {
     this.http.post("http://localhost:8080/uploadexcelexams",
     formData,{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
     .subscribe(
-          (val) => {
+          (val:any) => {
               console.log("POST call successful value returned in body",val);
           },
           response => {
@@ -278,9 +278,9 @@ export class RestapiService {
       "creator": localStorage.token
     },{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
     .subscribe(
-        (val) => {
+        (val:any) => {
                 console.log("POST call successful value returned in body",val);
-                this.qualifications = val
+                // this.qualifications = val
         },
         response => {
           this.data=response;
