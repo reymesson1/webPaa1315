@@ -1,0 +1,90 @@
+<div class="container-fluid">
+
+    <app-navbar></app-navbar>
+
+    <app-jumbotron></app-jumbotron>
+
+    <app-navbar-bottom></app-navbar-bottom>
+    <br/>
+
+    <app-breadcrumb></app-breadcrumb>
+
+
+<div class="row">
+      <div class="col-md-9">
+
+        <app-jumbotron-bottom></app-jumbotron-bottom>
+
+        <div *ngIf="profile" class="row">
+          
+          <div class="col-md-10 offset-10">
+            <button class="btn btn-danger" (click)="openDetail(this.id)">Add Modulo</button>
+          </div>
+
+        </div>
+
+        <br/>
+
+      <div *ngFor="let user of users.details; let i = index">
+        <br/>
+        <div class="card">
+          <div class="card-header">
+            {{"Modulo " +  user.id + ":" }}
+          </div>
+          <div class="row">
+            <br/>
+            <div class="col-md-10 offset-10">
+              <button class="btn btn-danger" (click)="openTask(user.id)">Add Task</button>
+            </div>
+          </div>
+          <div *ngFor="let detail of user.tasks">
+            <br/>
+            <div class="row">
+              <br/>
+              <div class="col-md-10">
+                <li class="list-group-item" (click)="viewDetail(this.id,user.id,detail.id)"  >
+                  <div class="row">
+                    <div class="col-md-5">
+                      {{detail.name}} 
+                    </div>  
+                    <div class="col-md-5"></div>
+                    <div class="col-md-2">
+                      <span class="badge badge-primary">Juan Perez</span>
+                    </div>
+                  </div>
+                </li>
+              </div>
+              <div class="col-md-1">
+                <button type="button" style="text-align:center;" (click)="openTaskEdit(user.id, detail.id)" class="list-group-item"><i class="fa fa-edit fa-1x" aria-hidden="true"></i></button> 
+              </div>
+              <div class="col-md-1">
+                <button type="button" style="text-align:center;" (click)="removeTask(user.id,detail.id)" class="list-group-item"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></button>
+              </div>
+              <br/>
+            </div>
+            <br/>
+          </div>
+          </div>
+        </div>
+  
+        
+      </div>
+
+      <div class="col-md-3">
+
+          <div class="card" style="width: 18rem;">
+              <div class="card-header">
+                Navegador
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Inicio</li>
+                <li class="list-group-item">Area Personal</li>
+                <li class="list-group-item">Mis Cursos</li>
+              </ul>
+          </div>
+
+      </div>
+        
+</div>
+
+</div>
