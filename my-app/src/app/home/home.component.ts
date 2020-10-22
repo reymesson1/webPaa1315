@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
 
   handleFileInput(event){
 
-    console.log(event);
+    this.restapiservice.uploadFileImage(event[0]);
+    // console.log(event);
   }
   
   handleFileInput2(event){

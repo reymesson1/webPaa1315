@@ -169,6 +169,51 @@ public class UploadService {
 
     }
     
+    @CrossOrigin(origins="http://localhost:4200")
+    @RequestMapping(value = "/uploadimage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
+            
+//            Path filepath = Paths.get("C:\\folderA\\", file.getOriginalFilename());
+
+//            try (OutputStream os = Files.newOutputStream(filepath)) {
+//                os.write(file.getBytes());
+//            }        
+//
+//            File files = new File("C:/folderA/"+file.getOriginalFilename());
+//
+//            Workbook workbook = WorkbookFactory.create(files);
+//
+//            Sheet sheet = workbook.getSheetAt(0);
+//            
+//            Stream<Row> rowStream = StreamSupport.stream(sheet.spliterator(), false);
+//
+//            rowStream.forEach(row->{
+//
+//                    Stream<Cell> cellStream = StreamSupport.stream(row.spliterator(),false);
+//                    List<String> cellVals =	cellStream.map(cell->{
+//                            String cellVal = cell.getStringCellValue();
+//                            return cellVal;
+//                    })
+//                    .collect(Collectors.toList());
+//
+//                    System.out.println(cellVals);
+//                    System.out.println(cellVals.get(0));
+//
+//                    Qualification q = new Qualification();
+//                    q.setId("1");
+//                    q.setActividad(cellVals.get(0));
+//                    q.setCalificacion(cellVals.get(1));
+//                    q.setStudent("dddsd12313ffd");
+//                    q.setCreator("132klj23ljdsd");
+//                    service.qualifications.add(q);
+//
+//            });
+
+            System.out.println(file.getOriginalFilename());
+//            System.out.println("uploadservice");
+
+    }
+    
     
 
 }

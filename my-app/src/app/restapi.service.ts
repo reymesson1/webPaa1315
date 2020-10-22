@@ -297,6 +297,30 @@ export class RestapiService {
     return true;
   }
 
+  uploadFileImage(event){
+
+    const formData: FormData = new FormData();
+    formData.append('file', event, event.name);
+
+    console.log(event);
+
+    this.http.post("http://localhost:8080/uploadimage",
+    formData,{headers: new HttpHeaders({"Authorization":"Bearer " + localStorage.getItem("token") })})
+    .subscribe(
+          (val:any) => {
+              console.log("POST call successful value returned in body",val);
+          },
+          response => {
+            this.data=response;
+            console.log("POST call in error", response);
+          },
+          () => {
+            console.log("The POST observable is now completed.");
+    });
+
+
+  }
+
   
 
 }

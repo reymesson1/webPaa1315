@@ -95,6 +95,14 @@ public class UploadController {
         
             uploadService.uploadFileExcel(file);
         }
+        
+        @RequestMapping(value = "/uploadimage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+        public void uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
+        
+            System.out.println(file);
+            uploadService.uploadFileImage(file);
+        }
+
                                 
         @RequestMapping(value = "/uploadexcelexams", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
         public void uploadFileExcelExams(@RequestParam("file") MultipartFile file) throws IOException {
