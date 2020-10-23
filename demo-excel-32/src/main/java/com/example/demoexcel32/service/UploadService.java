@@ -11,6 +11,15 @@ import com.example.demoexcel32.model.Answer;
 import com.example.demoexcel32.model.Exam;
 import com.example.demoexcel32.model.Qualification;
 import com.example.demoexcel32.model.Question;
+
+import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.objdetect.CascadeClassifier;
+
+import static java.lang.System.loadLibrary;
+import static org.opencv.imgproc.Imgproc.rectangle;
+
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -172,7 +181,31 @@ public class UploadService {
     @CrossOrigin(origins="http://localhost:4200")
     @RequestMapping(value = "/uploadimage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
-            
+        
+         loadLibrary( Core.NATIVE_LIBRARY_NAME );
+
+         
+         CascadeClassifier faceDetector = new CascadeClassifier();
+         faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_alt.xml"); 
+
+//         faceDetector.load( "C:\\folderA\\xml\\haarcascade_frontalface_alt.xml" );
+         
+         Mat image = Imgcodecs.imread(String.valueOf(file));
+         
+         MatOfRect faceDetections = new MatOfRect();
+        faceDetector.detectMultiScale( image, faceDetections );
+        
+        for (Rect rect : faceDetections.toArray()) {
+            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x,
+                    rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
+        }
+        
+        String filename = "Ouput.jpg";
+        System.out.println("Face Detected Successfully ");
+        Imgcodecs.imwrite( "c:\\folderA\\" + filename, image );
+        
+        
+        
 //            Path filepath = Paths.get("C:\\folderA\\", file.getOriginalFilename());
 
 //            try (OutputStream os = Files.newOutputStream(filepath)) {
@@ -209,7 +242,7 @@ public class UploadService {
 //
 //            });
 
-            System.out.println(file.getOriginalFilename());
+//            System.out.println(file.getOriginalFilename());
 //            System.out.println("uploadservice");
 
     }
