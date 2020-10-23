@@ -11,6 +11,8 @@ import com.example.demoexcel32.model.Answer;
 import com.example.demoexcel32.model.Exam;
 import com.example.demoexcel32.model.Qualification;
 import com.example.demoexcel32.model.Question;
+import com.example.demoexcel32.entity.FaceEntity;
+
 
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -51,6 +53,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadService {
 
     MasterService service;
+    private List<FaceEntity> faceEntities;
+    private Mat image;
+
     
     public UploadService(MasterService service){
         
@@ -180,29 +185,62 @@ public class UploadService {
     
     @CrossOrigin(origins="http://localhost:4200")
     @RequestMapping(value = "/uploadimage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public String uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
         
          loadLibrary( Core.NATIVE_LIBRARY_NAME );
 
-         
+         Mat image = Imgcodecs.imread(String.valueOf(file));
+//         Mat image = Imgcodecs.imread("./src/main/resources/images/messivsronaldo.png");
+
          CascadeClassifier faceDetector = new CascadeClassifier();
          faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_alt.xml"); 
 
-//         faceDetector.load( "C:\\folderA\\xml\\haarcascade_frontalface_alt.xml" );
-         
-         Mat image = Imgcodecs.imread(String.valueOf(file));
-         
+//         faceDetector.load("./src/main/resources/xml/lbpcascade_frontalface.xml"); 
+
          MatOfRect faceDetections = new MatOfRect();
-        faceDetector.detectMultiScale( image, faceDetections );
+        faceDetector.detectMultiScale(image, faceDetections);
+
+        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
         
         for (Rect rect : faceDetections.toArray()) {
-            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x,
-                    rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
+            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x, rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
         }
         
-        String filename = "Ouput.jpg";
+//        Imgcodecs.imwrite( "./src/main/resources/images/messivsronaldo.png",image );
         System.out.println("Face Detected Successfully ");
-        Imgcodecs.imwrite( "c:\\folderA\\" + filename, image );
+
+        return (String.format("Detected %s faces", faceDetections.toArray().length));
+         
+//         faceEntities=new ArrayList<>();
+//         MatOfRect faceDetections = new MatOfRect();
+//
+//         
+//         CascadeClassifier faceDetector = new CascadeClassifier();
+//         faceDetector.load("./src/main/resources/xml/lbpcascade_frontalface.xml"); 
+////         faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_alt.xml"); 
+//
+////
+//        image = Imgcodecs.imdecode(new MatOfByte(file.getBytes()), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+//        faceDetector.detectMultiScale(image, faceDetections);
+//        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+//
+//        return (String.format("Detected %s faces", faceDetections.toArray().length));
+
+        
+        
+//         Mat image = Imgcodecs.imread(String.valueOf(file));
+//         
+//         MatOfRect faceDetections = new MatOfRect();
+//        faceDetector.detectMultiScale( image, faceDetections );
+//        
+//        for (Rect rect : faceDetections.toArray()) {
+//            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x,
+//                    rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
+//        }
+//        
+//        String filename = "Ouput.jpg";
+//        System.out.println("Face Detected Successfully ");
+//        Imgcodecs.imwrite( "c:\\folderA\\" + filename, image );
         
         
         
