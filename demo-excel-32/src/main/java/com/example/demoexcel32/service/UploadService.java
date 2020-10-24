@@ -12,6 +12,12 @@ import com.example.demoexcel32.model.Exam;
 import com.example.demoexcel32.model.Qualification;
 import com.example.demoexcel32.model.Question;
 import com.example.demoexcel32.entity.FaceEntity;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import javax.imageio.ImageIO;
+import java.io.File;
+
 
 
 import org.opencv.core.*;
@@ -185,31 +191,63 @@ public class UploadService {
     
     @CrossOrigin(origins="http://localhost:4200")
     @RequestMapping(value = "/uploadimage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public void uploadFileImage(@RequestParam("file") MultipartFile file) throws IOException {
         
-         loadLibrary( Core.NATIVE_LIBRARY_NAME );
+            float percentage = 0;
 
-         Mat image = Imgcodecs.imread(String.valueOf(file));
-//         Mat image = Imgcodecs.imread("./src/main/resources/images/messivsronaldo.png");
+         BufferedImage biA = ImageIO.read(new File("C:\\Images\\test1.jpg"));
+         DataBuffer dbA = biA.getData().getDataBuffer();
+         int sizeA = dbA.getSize();
 
-         CascadeClassifier faceDetector = new CascadeClassifier();
-         faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_alt.xml"); 
+         BufferedImage biB = ImageIO.read(new File("C:\\Images\\test2.jpg"));
+         DataBuffer dbB = biB.getData().getDataBuffer();
+         int sizeB = dbB.getSize();
 
-//         faceDetector.load("./src/main/resources/xml/lbpcascade_frontalface.xml"); 
+        int count = 0;
+        // compare data-buffer objects //
+        if (sizeA == sizeB) {
 
-         MatOfRect faceDetections = new MatOfRect();
-        faceDetector.detectMultiScale(image, faceDetections);
+            for (int i = 0; i < sizeA; i++) {
 
-        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-        
-        for (Rect rect : faceDetections.toArray()) {
-            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x, rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
-        }
-        
-//        Imgcodecs.imwrite( "./src/main/resources/images/messivsronaldo.png",image );
-        System.out.println("Face Detected Successfully ");
+                if (dbA.getElem(i) == dbB.getElem(i)) {
+                    count = count + 1;
+                }
 
-        return (String.format("Detected %s faces", faceDetections.toArray().length));
+            }
+            percentage = (count * 100) / sizeA;         
+         
+         System.out.println("Difference: "+percentage);
+      }
+//        return (String.format("Difference: %s ", percentage));
+      
+
+
+//         loadLibrary( Core.NATIVE_LIBRARY_NAME );
+//
+//         Mat image = Imgcodecs.imread(String.valueOf(file));
+////         Mat image = Imgcodecs.imread("./src/main/resources/images/messivsronaldo.png");
+//
+//         CascadeClassifier faceDetector = new CascadeClassifier();
+//         faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_default.xml"); 
+//
+////         faceDetector.load("./src/main/resources/xml/haarcascade_frontalface_alt.xml"); 
+////         faceDetector.load("./src/main/resources/xml/haarcascade_hand.xml"); 
+//         
+////         faceDetector.load("./src/main/resources/xml/lbpcascade_frontalface.xml"); 
+//
+//         MatOfRect faceDetections = new MatOfRect();
+//        faceDetector.detectMultiScale(image, faceDetections);
+//
+//        System.out.println(String.format("Detected %s hands", faceDetections.toArray().length));
+//        
+//        for (Rect rect : faceDetections.toArray()) {
+//            rectangle( image, new Point( rect.x, rect.y ), new Point( rect.width + rect.x, rect.height + rect.y ), new Scalar( 0, 255, 0 ) );
+//        }
+//        
+////        Imgcodecs.imwrite( "./src/main/resources/images/messivsronaldo.png",image );
+//        System.out.println("Hand Detected Successfully ");
+
+//        return (String.format("Detected %s hands", faceDetections.toArray().length));
          
 //         faceEntities=new ArrayList<>();
 //         MatOfRect faceDetections = new MatOfRect();
@@ -283,7 +321,8 @@ public class UploadService {
 //            System.out.println(file.getOriginalFilename());
 //            System.out.println("uploadservice");
 
-    }
+      }
+    
     
     
 
